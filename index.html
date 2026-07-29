@@ -34,7 +34,9 @@
     .eyebrow{color:var(--lime);font-size:10px;font-weight:800;letter-spacing:.18em;margin:0 0 15px}
     .welcome h1{margin:0;font:italic 500 clamp(44px,6vw,82px)/.96 Georgia,serif;letter-spacing:-.055em}
     .intro{max-width:470px;margin:20px 0 25px;color:#aaa9a3;line-height:1.6;font-size:14px}
+    .welcome-actions{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
     .primary{display:flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:14px 21px;background:var(--lime);color:#111;font-weight:800;cursor:pointer;box-shadow:0 8px 40px rgba(105,199,201,.16)}
+    .secondary{min-height:46px;padding:0 20px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.06);font-weight:800;cursor:pointer}
     .permission{margin:12px 0 0;color:#6f706c;font-size:10px}.error{max-width:460px;color:#ff9992;font-size:12px;line-height:1.45}
     .prompt-shell{position:absolute;z-index:6;left:50%;top:71px;width:min(var(--prompt-width),calc(100vw - 40px));height:calc(100svh - 178px);transform:translateX(-50%);opacity:0;pointer-events:none;transition:opacity .4s}
     .prompt-shell.visible{opacity:1;pointer-events:auto}
@@ -100,7 +102,10 @@
       <p class="eyebrow">LOOK NATURAL. STAY ON MESSAGE.</p>
       <h1>Your notes,<br>right by the lens.</h1>
       <p class="intro">Read comfortably while keeping natural eye contact. Nothing is uploaded—your camera, notes, and recordings stay on this computer.</p>
-      <button id="cameraBtn" class="primary"><span>●</span> Turn on camera</button>
+      <div class="welcome-actions">
+        <button id="cameraBtn" class="primary"><span>●</span> Turn on camera</button>
+        <button id="welcomeNotesBtn" class="secondary">Add notes</button>
+      </div>
       <p class="permission">Your browser will ask for camera + microphone permission</p>
       <p id="error" class="error" role="alert"></p>
     </section>
@@ -411,6 +416,7 @@
       }
 
       $("cameraBtn").addEventListener("click",startCamera);
+      $("welcomeNotesBtn").addEventListener("click",() => openNotesDialog("edit"));
       $("mirrorBtn").addEventListener("click",() => camera.classList.toggle("mirrored"));
       $("settingsBtn").addEventListener("click",() => panel.classList.toggle("open"));
       $("closePanel").addEventListener("click",() => panel.classList.remove("open"));
