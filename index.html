@@ -88,8 +88,10 @@
     .interview-side{align-self:start;padding:22px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.035)}.interview-side h3{margin:0 0 16px;font:italic 500 28px/1 Georgia,serif}.how-list{display:grid;gap:15px;margin:0;padding:0;list-style:none}.how-list li{display:grid;grid-template-columns:28px 1fr;gap:10px;color:#b6b5af;font-size:12px;line-height:1.5}.how-list b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(105,199,201,.13);color:var(--lime);font-size:10px}.privacy-note{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);color:#777873;font-size:10px;line-height:1.55}.interview-start{width:100%;min-height:49px;margin-top:18px;border:0;border-radius:999px;background:var(--lime);color:#101111;font-weight:900;cursor:pointer}.interview-start:disabled{opacity:.55;cursor:wait}.model-status{min-height:18px;margin:10px 0 0;color:#aaa9a3;font-size:10px;line-height:1.45}
     .interview-live{display:none;grid-template-rows:auto minmax(0,1fr);min-height:0;flex:1}.interview-live.visible{display:grid}.live-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}.listen-state{display:flex;align-items:center;gap:8px;color:#c9c8c2;font-size:10px;font-weight:850;letter-spacing:.06em}.listen-state i{width:8px;height:8px;border-radius:50%;background:#777}.listen-state.active i{background:var(--lime);box-shadow:0 0 12px var(--lime);animation:pulse 1.3s infinite}.live-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}.live-actions button,.answer-actions button{min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.06);font-size:10px;font-weight:850;cursor:pointer}.live-actions .suggest-answer{border:0;background:var(--lime);color:#111}.live-actions button:disabled{opacity:.45;cursor:not-allowed}
     .interview-workspace{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:0}.interview-pane{display:flex;flex-direction:column;min-width:0;min-height:0;padding:20px}.interview-pane+ .interview-pane{border-left:1px solid var(--line)}.pane-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:#888984;font-size:9px;font-weight:900;letter-spacing:.15em}.transcript-box{flex:1;min-height:220px;overflow:auto;padding:17px;border:1px solid var(--line);border-radius:17px;background:#0a0c0c;color:#c8c7c1;font-size:13px;line-height:1.65;white-space:pre-wrap}.transcript-box.empty{display:grid;place-items:center;text-align:center;color:#62635f}.question-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:12px}.question-row button{padding:0 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.06);font-size:10px;font-weight:800;cursor:pointer}.answer-card{position:relative;flex:1;min-height:220px;overflow:auto;padding:22px;border:1px solid rgba(105,199,201,.24);border-radius:17px;background:linear-gradient(145deg,rgba(105,199,201,.08),rgba(255,255,255,.025));color:#eeede7;font-size:16px;line-height:1.65;white-space:pre-wrap}.answer-card.empty{display:grid;place-items:center;text-align:center;color:#6e706b;font-size:12px}.answer-card.thinking{color:#aaa9a3}.answer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:11px}.answer-meta{color:#777873;font-size:9px}.answer-actions button{min-width:78px}.interview-error{color:#ff9992!important}
+    .mode-overlay{position:fixed;z-index:60;inset:0;display:none;place-items:center;padding:22px;background:radial-gradient(circle at 50% 12%,rgba(105,199,201,.13),transparent 32%),rgba(5,7,7,.92);backdrop-filter:blur(22px)}.mode-overlay.visible{display:grid}
+    .mode-card{width:min(760px,100%);padding:31px;border:1px solid var(--line);border-radius:28px;background:#141616;box-shadow:0 28px 110px rgba(0,0,0,.7);text-align:center}.mode-logo{display:block;width:138px;height:auto;margin:0 auto 24px}.mode-card .eyebrow{margin-bottom:11px}.mode-card h2{margin:0;font:italic 500 clamp(38px,6vw,62px)/.98 Georgia,serif;letter-spacing:-.05em}.mode-card>p:not(.eyebrow){max-width:520px;margin:13px auto 24px;color:var(--muted);font-size:13px;line-height:1.55}.mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode-choice{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:13px;min-height:94px;padding:16px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.035);text-align:left;cursor:pointer;transition:transform .18s,border-color .18s,background .18s}.mode-choice:hover{transform:translateY(-2px);border-color:rgba(105,199,201,.5);background:rgba(105,199,201,.07)}.mode-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.07);font-size:18px}.mode-video .mode-icon{color:#ff554c}.mode-interview .mode-icon{color:var(--lime)}.mode-copy strong{display:block;margin-bottom:5px;font-size:14px}.mode-copy small{display:block;color:#888984;font-size:10px;line-height:1.4}.mode-arrow{color:#777873;font-size:20px}
     @keyframes pulse{50%{opacity:.35}}
-    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}}
+    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}.mode-card{padding:25px 18px}.mode-options{grid-template-columns:1fr}.mode-choice{min-height:84px}}
     @media(max-height:650px){.welcome h1{font-size:48px}.orbit{display:none}.panel{top:70px}}
   </style>
 </head>
@@ -97,6 +99,26 @@
   <main class="studio">
     <video id="camera" muted playsinline></video>
     <div class="ambient" aria-hidden="true"></div>
+    <div id="modeOverlay" class="mode-overlay visible" role="dialog" aria-modal="true" aria-labelledby="modeTitle">
+      <section class="mode-card">
+        <img class="mode-logo" src="CueUp-Logo.png" alt="CueUp">
+        <p class="eyebrow">CHOOSE YOUR CUEUP MODE</p>
+        <h2 id="modeTitle">What are you<br>preparing for?</h2>
+        <p>Choose a focused workspace. You can switch to the other mode later from the main screen.</p>
+        <div class="mode-options">
+          <button id="chooseVideoMode" class="mode-choice mode-video">
+            <span class="mode-icon">●</span>
+            <span class="mode-copy"><strong>Record a video</strong><small>Camera, teleprompter, voice follow, and recording controls</small></span>
+            <span class="mode-arrow">›</span>
+          </button>
+          <button id="chooseInterviewMode" class="mode-choice mode-interview">
+            <span class="mode-icon">✦</span>
+            <span class="mode-copy"><strong>Prepare for an interview</strong><small>Meeting audio, live transcript, and AI answer coaching</small></span>
+            <span class="mode-arrow">›</span>
+          </button>
+        </div>
+      </section>
+    </div>
 
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src="CueUp-Logo.png" alt="CueUp"></div>
@@ -1042,6 +1064,14 @@
       }
 
       $("cameraBtn").addEventListener("click",startCamera);
+      $("chooseVideoMode").addEventListener("click",() => {
+        $("modeOverlay").classList.remove("visible");
+        $("cameraBtn").focus();
+      });
+      $("chooseInterviewMode").addEventListener("click",() => {
+        $("modeOverlay").classList.remove("visible");
+        openInterviewCopilot();
+      });
       $("welcomeNotesBtn").addEventListener("click",() => openNotesDialog("edit"));
       $("interviewBtn").addEventListener("click",openInterviewCopilot);
       $("interviewClose").addEventListener("click",closeInterviewCopilot);
@@ -1114,6 +1144,7 @@
         voiceBtn.title = "Voice Follow is not supported by this browser";
       }
       window.addEventListener("keydown",(event) => {
+        if ($("modeOverlay").classList.contains("visible")) return;
         if ($("interviewOverlay").classList.contains("visible")) {
           if (event.key === "Escape") closeInterviewCopilot();
           return;
