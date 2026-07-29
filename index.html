@@ -339,6 +339,9 @@
       let paceTargetSeconds = 0, paceElapsedMs = 0, timedPacing = false;
       let scriptWords = [], scriptWordEls = [], highlightedWordIndex = -1, committedWordIndex = 0;
       let recognition = null, voiceWanted = false, voiceActive = false, processedFinalResults = 0;
+      let voiceUsingFallback = false, voiceFallbackPreparing = false;
+      let voiceFallbackStream = null, voiceFallbackRecorder = null, voiceFallbackSession = null;
+      let voiceFallbackQueue = Promise.resolve();
       let resumeVoiceAfterPause = false;
       let interviewDisplayStream = null, interviewMicStream = null, interviewMixedStream = null;
       let interviewAudioContext = null, interviewAudioNodes = [], interviewRecorder = null, interviewTimer = null;
@@ -462,7 +465,7 @@
         let cursor = startIndex;
         heardWords.forEach((heardWord) => {
           let match = -1;
-          const limit = Math.min(scriptWords.length,cursor + 7);
+          const limit = Math.min(scriptWords.length,cursor + 24);
           for (let index = cursor; index < limit; index++) {
             if (wordsMatch(scriptWords[index],heardWord)) { match = index; break; }
           }
@@ -490,6 +493,7 @@
         recognition.interimResults = true;
         recognition.lang = navigator.language || "en-US";
         recognition.onstart = () => {
+          voiceUsingFallback = false;
           voiceActive = true;
           processedFinalResults = 0;
           updateVoiceButton();
@@ -507,17 +511,26 @@
             }
           }
           paintWordProgress(previewWordIndex,true);
+          const nextWord = scriptWordEls[previewWordIndex];
+          showVoiceState(nextWord ? "Listening · next: " + nextWord.textContent : "Script complete",false);
         };
         recognition.onerror = (event) => {
           if (event.error === "aborted" || event.error === "no-speech") return;
-          if (event.error === "not-allowed" || event.error === "service-not-allowed") voiceWanted = false;
+          if ((event.error === "network" || event.error === "service-not-allowed" || event.error === "language-not-supported") && window.LanguageModel) {
+            voiceUsingFallback = true;
+            voiceActive = false;
+            showVoiceState("Live speech service unavailable · switching to private on-device listening",false);
+            startVoiceFallback();
+            return;
+          }
+          if (event.error === "not-allowed") voiceWanted = false;
           showVoiceState(event.error === "not-allowed" ? "Microphone access is needed for Voice Follow" : "Voice Follow paused · try again",true);
           updateVoiceButton();
         };
         recognition.onend = () => {
           voiceActive = false;
           updateVoiceButton();
-          if (voiceWanted) setTimeout(beginRecognition,300);
+          if (voiceWanted && !voiceUsingFallback) setTimeout(beginRecognition,300);
         };
         return true;
       }
@@ -529,6 +542,12 @@
           return true;
         } catch (e) {
           if (e.name === "InvalidStateError") return true;
+          if (window.LanguageModel) {
+            voiceUsingFallback = true;
+            showVoiceState("Switching to private on-device Word Follow…",false);
+            startVoiceFallback();
+            return true;
+          }
           voiceWanted = false;
           updateVoiceButton();
           showVoiceState("Voice Follow could not start in this browser",true);
@@ -536,11 +555,93 @@
         }
       }
 
-      function startVoiceTracking() {
-        if (!SpeechRecognitionApi) {
-          showVoiceState("Voice Follow requires Chrome, Edge, or Safari",true);
+      async function prepareVoiceFallback() {
+        if (voiceFallbackSession) return true;
+        if (!window.LanguageModel || !window.MediaRecorder) return false;
+        voiceFallbackPreparing = true;
+        showVoiceState("Preparing private on-device Word Follow…",false);
+        try {
+          const options = audioModelOptions();
+          const availability = await window.LanguageModel.availability(options);
+          if (availability === "unavailable") return false;
+          voiceFallbackSession = await window.LanguageModel.create({
+            ...options,
+            initialPrompts:[{
+              role:"system",
+              content:"Transcribe the supplied speech accurately. Return only the spoken words with no labels, explanation, or punctuation commentary."
+            }],
+            monitor(monitor) {
+              monitor.addEventListener("downloadprogress",(event) => {
+                showVoiceState("Downloading private Word Follow · " + Math.round((event.loaded || 0) * 100) + "%",false);
+              });
+            }
+          });
+          return true;
+        } catch (e) {
+          return false;
+        } finally {
+          voiceFallbackPreparing = false;
+        }
+      }
+
+      async function processVoiceFallbackAudio(blob) {
+        if (!voiceWanted || !voiceFallbackSession || !blob || blob.size < 500) return;
+        try {
+          const transcript = await voiceFallbackSession.prompt([{
+            role:"user",
+            content:[
+              {type:"text",value:"Transcribe this part of the speaker's script."},
+              {type:"audio",value:blob}
+            ]
+          }]);
+          if (!voiceWanted) return;
+          committedWordIndex = advanceFromTranscript(transcript,committedWordIndex);
+          paintWordProgress(committedWordIndex,true);
+          const nextWord = scriptWordEls[committedWordIndex];
+          showVoiceState(nextWord ? "On-device listening · next: " + nextWord.textContent : "Script complete",false);
+        } catch (e) {
+          if (voiceWanted) showVoiceState("Word Follow missed a phrase · keep speaking",true);
+        }
+      }
+
+      async function startVoiceFallback() {
+        if (voiceFallbackRecorder && voiceFallbackRecorder.state === "recording") return true;
+        if (voiceFallbackPreparing) return true;
+        if (!(await prepareVoiceFallback())) {
+          voiceWanted = false;
+          voiceActive = false;
+          updateVoiceButton();
+          showVoiceState("Word Follow needs the public CueUp link in current Chrome or Edge",true);
           return false;
         }
+        if (!voiceWanted) return false;
+        try {
+          const audioTrack = stream && stream.getAudioTracks()[0];
+          voiceFallbackStream = audioTrack
+            ? new MediaStream([audioTrack.clone()])
+            : await navigator.mediaDevices.getUserMedia({video:false,audio:true});
+          const mimeType = supportedInterviewMime();
+          voiceFallbackRecorder = new MediaRecorder(voiceFallbackStream,mimeType ? {mimeType} : undefined);
+          voiceFallbackRecorder.ondataavailable = (event) => {
+            if (!event.data.size) return;
+            voiceFallbackQueue = voiceFallbackQueue.then(() => processVoiceFallbackAudio(event.data));
+          };
+          voiceFallbackRecorder.start(3500);
+          voiceUsingFallback = true;
+          voiceActive = true;
+          updateVoiceButton();
+          showVoiceState("On-device listening · say the highlighted word",false);
+          return true;
+        } catch (e) {
+          voiceWanted = false;
+          voiceActive = false;
+          updateVoiceButton();
+          showVoiceState("Microphone access is needed for Word Follow",true);
+          return false;
+        }
+      }
+
+      async function startVoiceTracking() {
         if (editing) setEditing(false);
         if (!scriptWords.length) {
           openNotesDialog("edit");
@@ -551,7 +652,8 @@
         updatePlay();
         voiceWanted = true;
         updateVoiceButton();
-        return beginRecognition();
+        if (SpeechRecognitionApi) return beginRecognition();
+        return startVoiceFallback();
       }
 
       function stopVoiceTracking() {
@@ -560,19 +662,27 @@
         updateVoiceButton();
         voiceBadge.classList.remove("visible");
         paintWordProgress(committedWordIndex,false);
+        voiceUsingFallback = false;
+        if (voiceFallbackRecorder && voiceFallbackRecorder.state !== "inactive") {
+          try { voiceFallbackRecorder.stop(); }
+          catch (e) {}
+        }
+        if (voiceFallbackStream) voiceFallbackStream.getTracks().forEach((track) => track.stop());
+        voiceFallbackRecorder = null;
+        voiceFallbackStream = null;
         if (recognition) {
           try { recognition.abort(); }
           catch (e) {}
         }
       }
 
-      function toggleVoiceTracking() {
+      async function toggleVoiceTracking() {
         if (recorder && recorder.state === "recording" && paceTargetSeconds) {
           showVoiceState("Target-time pacing is active · turn off the time limit to use Voice Follow",true);
           return;
         }
         if (voiceWanted || voiceActive) stopVoiceTracking();
-        else startVoiceTracking();
+        else await startVoiceTracking();
       }
 
       function interviewContext() {
@@ -1093,7 +1203,7 @@
         startRecBtn.classList.toggle("active",active);
         pauseRecBtn.classList.toggle("resume",state === "paused");
         pauseRecBtn.querySelector("span").textContent = state === "paused" ? "Resume" : "Pause";
-        voiceBtn.disabled = !SpeechRecognitionApi || (active && Boolean(paceTargetSeconds));
+        voiceBtn.disabled = active && Boolean(paceTargetSeconds);
       }
 
       function openNotesDialog(intent = "edit") {
@@ -1149,7 +1259,7 @@
           resetPrompt();
           startTimedPacing(true);
         } else if (voiceFollowRequested) {
-          if (!voiceActive) beginRecognition();
+          if (!voiceActive) startVoiceTracking();
         } else if (!scrolling) {
           toggleScroll();
         }
@@ -1330,10 +1440,6 @@
         $("targetSeconds").value = "0";
         syncPaceSetting();
       });
-      if (!SpeechRecognitionApi) {
-        voiceBtn.disabled = true;
-        voiceBtn.title = "Voice Follow is not supported by this browser";
-      }
       window.addEventListener("keydown",(event) => {
         if ($("modeOverlay").classList.contains("visible")) return;
         if ($("interviewOverlay").classList.contains("visible")) {
