@@ -23,7 +23,7 @@
     #camera.active{opacity:1} #camera.mirrored{transform:scaleX(-1)}
     .ambient{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,9,9,.72),transparent 23%,transparent 66%,rgba(8,9,9,.82)),linear-gradient(90deg,rgba(8,9,9,.4),transparent 30%,transparent 70%,rgba(8,9,9,.4))}
     .topbar{position:absolute;z-index:10;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 28px}
-    .brand{display:flex;align-items:center}.brand-logo{display:block;width:128px;height:auto}
+    .brand{display:flex;align-items:center;gap:11px}.brand-logo{display:block;width:128px;height:auto}.video-mode-back{display:none;align-items:center;gap:6px;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:rgba(12,13,13,.55);backdrop-filter:blur(12px);color:#cfcec8;font-size:10px;font-weight:850;cursor:pointer}.video-mode-back.visible{display:flex}
     .top-actions{display:flex;align-items:center;gap:9px}
     .status{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:#c7c6c0;background:rgba(12,13,13,.46);backdrop-filter:blur(12px);font-size:12px}
     .status i,.rec-badge i{width:7px;height:7px;border-radius:50%;background:#777}.status.live i{background:var(--lime);box-shadow:0 0 12px var(--lime)}
@@ -86,7 +86,7 @@
     .share-status{min-height:18px;margin-top:9px!important;color:#d7ff63!important;font-size:10px!important}.finish-close{display:block;margin:18px auto 0;border:0;background:none;color:#858681;font-size:11px;cursor:pointer}
     .interview-overlay{position:fixed;z-index:42;inset:0;display:none;padding:18px;background:#090b0b}.interview-overlay.visible{display:flex}
     .interview-shell{display:flex;flex-direction:column;width:min(1180px,100%);height:calc(100svh - 36px);margin:auto;border:1px solid var(--line);border-radius:25px;overflow:hidden;background:radial-gradient(circle at 82% 4%,rgba(105,199,201,.12),transparent 25%),#111313;box-shadow:0 28px 100px rgba(0,0,0,.65)}
-    .interview-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px;border-bottom:1px solid var(--line)}.interview-head-copy{display:flex;align-items:center;gap:13px}.interview-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(105,199,201,.14);color:var(--lime);font-size:17px}.interview-head small{display:block;color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.18em}.interview-head strong{display:block;margin-top:3px;font-size:14px}.interview-close{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.05);font-size:20px;cursor:pointer}
+    .interview-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px;border-bottom:1px solid var(--line)}.interview-head-copy{display:flex;align-items:center;gap:13px}.interview-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(105,199,201,.14);color:var(--lime);font-size:17px}.interview-head small{display:block;color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.18em}.interview-head strong{display:block;margin-top:3px;font-size:14px}.interview-head-actions{display:flex;align-items:center;gap:8px}.interview-mode-back{min-height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);color:#d1d0ca;font-size:10px;font-weight:850;cursor:pointer}.interview-close{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.05);font-size:20px;cursor:pointer}
     .interview-setup{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:28px;min-height:0;overflow:auto;padding:34px}.interview-setup.hidden{display:none}.interview-setup h2{margin:0;font:italic 500 clamp(38px,5vw,66px)/.96 Georgia,serif;letter-spacing:-.05em}.interview-lede{max-width:650px;margin:16px 0 25px;color:var(--muted);font-size:14px;line-height:1.65}.platforms{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}.platforms span{padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:#c9c8c2;font-size:10px}.context-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.context-field{display:grid;gap:7px}.context-field.wide{grid-column:1/-1}.context-field span{color:#c9c8c2;font-size:10px;font-weight:800}.context-field input,.context-field textarea,.question-input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;outline:0;background:#0a0c0c;color:var(--ink);font-size:13px;line-height:1.5}.context-field textarea{min-height:105px;resize:vertical}.context-field input:focus,.context-field textarea:focus,.question-input:focus{border-color:rgba(105,199,201,.6);box-shadow:0 0 0 3px rgba(105,199,201,.08)}
     .meeting-launcher{margin:0 0 25px;padding:16px;border:1px solid rgba(105,199,201,.2);border-radius:18px;background:linear-gradient(145deg,rgba(105,199,201,.065),rgba(255,255,255,.02))}.meeting-launch-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:13px}.meeting-launch-head strong{display:block;font-size:12px}.meeting-launch-head span{display:block;margin-top:4px;color:#858681;font-size:10px;line-height:1.45}.meeting-security{flex:none;padding:5px 8px;border:1px solid rgba(105,199,201,.22);border-radius:999px;color:var(--lime)!important;font-size:8px!important;font-weight:900;letter-spacing:.08em}.meeting-platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.platform-link{display:grid;grid-template-columns:30px 1fr;align-items:center;gap:9px;min-height:48px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:#0b0d0d;text-decoration:none;transition:border-color .18s,transform .18s,background .18s}.platform-link:hover{transform:translateY(-1px);border-color:rgba(105,199,201,.5);background:rgba(105,199,201,.07)}.platform-link b{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.07);color:#f2f1eb;font-size:11px}.platform-link span{display:block;color:#dddcd6;font-size:10px;font-weight:850}.platform-link small{display:block;margin-top:2px;color:#6f706c;font-size:8px}.meeting-url-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}.meeting-url-row input{min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:11px;outline:0;background:#0a0c0c;color:var(--ink);font-size:11px}.meeting-url-row input:focus{border-color:rgba(105,199,201,.6);box-shadow:0 0 0 3px rgba(105,199,201,.08)}.meeting-url-row button{padding:0 15px;border:0;border-radius:11px;background:var(--lime);color:#101111;font-size:10px;font-weight:900;cursor:pointer}.meeting-status{min-height:14px;margin:7px 2px 0;color:#777873;font-size:9px;line-height:1.4}.meeting-status.error{color:#ff9992}
     .interview-side{align-self:start;padding:22px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.035)}.interview-side h3{margin:0 0 16px;font:italic 500 28px/1 Georgia,serif}.how-list{display:grid;gap:15px;margin:0;padding:0;list-style:none}.how-list li{display:grid;grid-template-columns:28px 1fr;gap:10px;color:#b6b5af;font-size:12px;line-height:1.5}.how-list b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(105,199,201,.13);color:var(--lime);font-size:10px}.privacy-note{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);color:#777873;font-size:10px;line-height:1.55}.interview-start{width:100%;min-height:49px;margin-top:18px;border:0;border-radius:999px;background:var(--lime);color:#101111;font-weight:900;cursor:pointer}.interview-start:disabled{opacity:.55;cursor:wait}.model-status{min-height:18px;margin:10px 0 0;color:#aaa9a3;font-size:10px;line-height:1.45}
@@ -95,7 +95,7 @@
     .mode-overlay{position:fixed;z-index:60;inset:0;display:none;place-items:center;padding:22px;background:radial-gradient(circle at 50% 12%,rgba(105,199,201,.13),transparent 32%),rgba(5,7,7,.92);backdrop-filter:blur(22px)}.mode-overlay.visible{display:grid}
     .mode-card{width:min(760px,100%);padding:31px;border:1px solid var(--line);border-radius:28px;background:#141616;box-shadow:0 28px 110px rgba(0,0,0,.7);text-align:center}.mode-logo{display:block;width:138px;height:auto;margin:0 auto 24px}.mode-card .eyebrow{margin-bottom:11px}.mode-card h2{margin:0;font:italic 500 clamp(38px,6vw,62px)/.98 Georgia,serif;letter-spacing:-.05em}.mode-card>p:not(.eyebrow){max-width:520px;margin:13px auto 24px;color:var(--muted);font-size:13px;line-height:1.55}.mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode-choice{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:13px;min-height:94px;padding:16px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.035);text-align:left;cursor:pointer;transition:transform .18s,border-color .18s,background .18s}.mode-choice:hover{transform:translateY(-2px);border-color:rgba(105,199,201,.5);background:rgba(105,199,201,.07)}.mode-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.07);font-size:18px}.mode-video .mode-icon{color:#ff554c}.mode-interview .mode-icon{color:var(--lime)}.mode-copy strong{display:block;margin-bottom:5px;font-size:14px}.mode-copy small{display:block;color:#888984;font-size:10px;line-height:1.4}.mode-arrow{color:#777873;font-size:20px}
     @keyframes pulse{50%{opacity:.35}}
-    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}.mode-card{padding:25px 18px}.mode-options{grid-template-columns:1fr}.mode-choice{min-height:84px}.meeting-platform-grid{grid-template-columns:repeat(2,1fr)}.notes-pace{grid-template-columns:1fr}.notes-pace-fields{justify-content:flex-start}}
+    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.video-mode-back{padding:0 10px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}.interview-mode-back{padding:0 11px}.mode-card{padding:25px 18px}.mode-options{grid-template-columns:1fr}.mode-choice{min-height:84px}.meeting-platform-grid{grid-template-columns:repeat(2,1fr)}.notes-pace{grid-template-columns:1fr}.notes-pace-fields{justify-content:flex-start}}
     @media(max-height:650px){.welcome h1{font-size:48px}.orbit{display:none}.panel{top:70px}}
   </style>
 </head>
@@ -108,7 +108,7 @@
         <img class="mode-logo" src="CueUp-Logo.png" alt="CueUp">
         <p class="eyebrow">CHOOSE YOUR CUEUP MODE</p>
         <h2 id="modeTitle">What are you<br>preparing for?</h2>
-        <p>Choose a focused workspace. You can switch to the other mode later from the main screen.</p>
+        <p>Choose a focused workspace. Use Back to modes whenever you want to switch.</p>
         <div class="mode-options">
           <button id="chooseVideoMode" class="mode-choice mode-video">
             <span class="mode-icon">●</span>
@@ -125,7 +125,7 @@
     </div>
 
     <header class="topbar">
-      <div class="brand"><img class="brand-logo" src="CueUp-Logo.png" alt="CueUp"></div>
+      <div class="brand"><button id="videoModeBack" class="video-mode-back" type="button">← Modes</button><img class="brand-logo" src="CueUp-Logo.png" alt="CueUp"></div>
       <div class="top-actions">
         <span id="status" class="status"><i></i><span>Media stays local</span></span>
         <button id="mirrorBtn" class="icon-btn" title="Mirror preview" aria-label="Mirror preview">↔</button>
@@ -218,7 +218,10 @@
             <span class="interview-mark">✦</span>
             <div><small>CUEUP AI</small><strong>Interview Copilot</strong></div>
           </div>
-          <button id="interviewClose" class="interview-close" aria-label="Close Interview Copilot">×</button>
+          <div class="interview-head-actions">
+            <button id="interviewModeBack" class="interview-mode-back" type="button">← Back to modes</button>
+            <button id="interviewClose" class="interview-close" aria-label="Close Interview Copilot">×</button>
+          </div>
         </header>
 
         <section id="interviewSetup" class="interview-setup">
@@ -342,6 +345,7 @@
       let finishedBlob = null, finishedName = "";
       let notesConfirmed = false;
       let notesIntent = "edit";
+      let currentMode = "";
       let speed = Number(storage.get("eyeline-speed","34"));
       let paceTargetSeconds = 0, paceElapsedMs = 0, timedPacing = false;
       let scriptWords = [], scriptWordEls = [], highlightedWordIndex = -1, committedWordIndex = 0;
@@ -954,6 +958,35 @@
         $("interviewOverlay").classList.remove("visible");
       }
 
+      function returnToModeChooser() {
+        if (currentMode === "video" && recorder && (recorder.state === "recording" || recorder.state === "paused")) {
+          status.classList.add("live");
+          status.lastElementChild.textContent = "Stop the recording before switching modes";
+          return;
+        }
+        closeInterviewCopilot();
+        stopVoiceTracking();
+        scrolling = false;
+        timedPacing = false;
+        if (animationId) cancelAnimationFrame(animationId);
+        if (stream) stream.getTracks().forEach((track) => track.stop());
+        stream = null;
+        camera.pause();
+        camera.srcObject = null;
+        camera.classList.remove("active");
+        welcome.classList.remove("hidden");
+        promptShell.classList.remove("visible");
+        dock.classList.remove("visible");
+        panel.classList.remove("open");
+        $("videoModeBack").classList.remove("visible");
+        $("interviewBtn").hidden = false;
+        status.classList.remove("live");
+        status.lastElementChild.textContent = "Media stays local";
+        error.textContent = "";
+        currentMode = "";
+        $("modeOverlay").classList.add("visible");
+      }
+
       async function startCamera() {
         error.textContent = "";
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -1223,16 +1256,27 @@
 
       $("cameraBtn").addEventListener("click",startCamera);
       $("chooseVideoMode").addEventListener("click",() => {
+        currentMode = "video";
         $("modeOverlay").classList.remove("visible");
+        $("interviewBtn").hidden = true;
+        $("videoModeBack").classList.add("visible");
         $("cameraBtn").focus();
       });
       $("chooseInterviewMode").addEventListener("click",() => {
+        currentMode = "interview";
         $("modeOverlay").classList.remove("visible");
+        $("interviewBtn").hidden = true;
+        $("videoModeBack").classList.remove("visible");
         openInterviewCopilot();
       });
+      $("videoModeBack").addEventListener("click",returnToModeChooser);
+      $("interviewModeBack").addEventListener("click",returnToModeChooser);
       $("welcomeNotesBtn").addEventListener("click",() => openNotesDialog("edit"));
-      $("interviewBtn").addEventListener("click",openInterviewCopilot);
-      $("interviewClose").addEventListener("click",closeInterviewCopilot);
+      $("interviewBtn").addEventListener("click",() => {
+        currentMode = "interview";
+        openInterviewCopilot();
+      });
+      $("interviewClose").addEventListener("click",returnToModeChooser);
       $("meetingUrlOpen").addEventListener("click",openMeetingLink);
       $("meetingUrl").addEventListener("keydown",(event) => {
         if (event.key === "Enter") openMeetingLink();
@@ -1324,7 +1368,7 @@
       window.addEventListener("keydown",(event) => {
         if ($("modeOverlay").classList.contains("visible")) return;
         if ($("interviewOverlay").classList.contains("visible")) {
-          if (event.key === "Escape") closeInterviewCopilot();
+          if (event.key === "Escape") returnToModeChooser();
           return;
         }
         if (event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) return;
