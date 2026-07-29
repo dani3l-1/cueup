@@ -135,7 +135,7 @@
       <img class="welcome-logo" src="CueUp-Logo.png" alt="CueUp">
       <p class="eyebrow">LOOK NATURAL. STAY ON MESSAGE.</p>
       <h1>Your notes,<br>right by the lens.</h1>
-      <p class="intro">Read comfortably while keeping natural eye contact. CueUp does not upload your notes or recordings. Voice Follow may use your browser’s speech service.</p>
+      <p class="intro">Read comfortably while keeping natural eye contact. CueUp does not upload your notes or recordings. Word Follow may use your browser’s speech service.</p>
       <div class="welcome-actions">
         <button id="cameraBtn" class="primary"><span>●</span> Turn on camera</button>
         <button id="welcomeNotesBtn" class="secondary">Add notes</button>
@@ -176,7 +176,7 @@
     <footer id="dock" class="dock">
       <button id="resetBtn" class="round" title="Restart prompt">↺</button>
       <button id="notesBtn" class="round notes-open" title="Add or edit notes">Notes</button>
-      <button id="voiceTrackBtn" class="voice-track" aria-pressed="false" title="Follow your voice and highlight the next word"><i></i><span>Voice follow</span></button>
+      <button id="voiceTrackBtn" class="voice-track" aria-pressed="false" title="Follow your voice and highlight the next word"><i></i><span>Word follow</span></button>
       <button id="playBtn" class="play"><span>▶</span> Start prompt</button>
       <div class="record-controls" role="group" aria-label="Recording controls">
         <button id="recordStartBtn" class="record-control record-start"><i></i><span>Start</span></button>
@@ -398,7 +398,7 @@
       syncPaceSetting();
 
       function normalizeWord(word) {
-        return word.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+        return word.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^\p{L}\p{N}]/gu,"");
       }
 
       function renderScript() {
@@ -465,7 +465,8 @@
         let cursor = startIndex;
         heardWords.forEach((heardWord) => {
           let match = -1;
-          const limit = Math.min(scriptWords.length,cursor + 24);
+          const lookAhead = heardWord.length <= 3 ? 4 : 24;
+          const limit = Math.min(scriptWords.length,cursor + lookAhead);
           for (let index = cursor; index < limit; index++) {
             if (wordsMatch(scriptWords[index],heardWord)) { match = index; break; }
           }
@@ -483,7 +484,7 @@
       function updateVoiceButton() {
         voiceBtn.classList.toggle("active",voiceWanted || voiceActive);
         voiceBtn.setAttribute("aria-pressed",String(voiceWanted || voiceActive));
-        voiceBtn.querySelector("span").textContent = voiceWanted || voiceActive ? "Listening" : "Voice follow";
+        voiceBtn.querySelector("span").textContent = voiceWanted || voiceActive ? "Listening" : "Word follow";
       }
 
       function buildRecognition() {
@@ -516,15 +517,21 @@
         };
         recognition.onerror = (event) => {
           if (event.error === "aborted" || event.error === "no-speech") return;
-          if ((event.error === "network" || event.error === "service-not-allowed" || event.error === "language-not-supported") && window.LanguageModel) {
+          const microphoneAlreadyActive = Boolean(stream && stream.getAudioTracks().some((track) => track.readyState === "live"));
+          const speechServiceBlocked = event.error === "network" || event.error === "service-not-allowed" || event.error === "language-not-supported" || (event.error === "not-allowed" && microphoneAlreadyActive);
+          if (speechServiceBlocked && window.LanguageModel) {
             voiceUsingFallback = true;
             voiceActive = false;
             showVoiceState("Live speech service unavailable · switching to private on-device listening",false);
             startVoiceFallback();
             return;
           }
-          if (event.error === "not-allowed") voiceWanted = false;
-          showVoiceState(event.error === "not-allowed" ? "Microphone access is needed for Voice Follow" : "Voice Follow paused · try again",true);
+          if (event.error === "not-allowed") {
+            voiceWanted = false;
+            showVoiceState(microphoneAlreadyActive ? "This browser blocks Word Follow · open CueUp in current Chrome or Edge" : "Microphone access is needed for Word Follow",true);
+          } else {
+            showVoiceState("Word Follow paused · try again",true);
+          }
           updateVoiceButton();
         };
         recognition.onend = () => {
@@ -1459,6 +1466,9 @@
         $("targetSeconds").value = "0";
         syncPaceSetting();
       });
+      if (!SpeechRecognitionApi && !window.LanguageModel) {
+        voiceBtn.title = "Word Follow requires the public CueUp link in current Chrome or Edge";
+      }
       window.addEventListener("keydown",(event) => {
         if ($("modeOverlay").classList.contains("visible")) return;
         if ($("interviewOverlay").classList.contains("visible")) {
