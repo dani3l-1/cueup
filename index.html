@@ -51,6 +51,7 @@
     .panel.open{display:block}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:15px;border-bottom:1px solid var(--line)}
     .panel-head div{display:grid;gap:2px}.panel-head small{color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.18em}.panel-head strong{font-size:14px}.panel-head button{border:0;background:none;color:#8e8f8a;font-size:22px;cursor:pointer}
     .panel label{display:grid;gap:9px;margin-top:16px}.panel label span{display:flex;justify-content:space-between;color:#cbc9c2;font-size:11px}.panel output{color:#777873;font-variant-numeric:tabular-nums}
+    .pace-setting{margin-top:17px;padding-top:16px;border-top:1px solid var(--line)}.pace-title{display:flex;align-items:center;justify-content:space-between;color:#cbc9c2;font-size:11px}.pace-title output{color:var(--lime);font-weight:850}.pace-fields{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px}.pace-field{display:grid;grid-template-columns:1fr auto;align-items:center;border:1px solid var(--line);border-radius:10px;background:#0b0d0d;overflow:hidden}.pace-field input{min-width:0;width:100%;padding:10px 4px 10px 11px;border:0;outline:0;background:transparent;color:var(--ink);font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}.pace-field small{padding-right:9px;color:#696a66;font-size:7px;font-weight:900;letter-spacing:.08em}.pace-clear{padding:0 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.05);color:#999a95;font-size:9px;font-weight:800;cursor:pointer}.pace-estimate{min-height:28px;margin:8px 0 0;color:#777873;font-size:9px;line-height:1.45}
     input[type=range]{width:100%;accent-color:var(--lime);cursor:pointer}.shortcuts{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
     .shortcuts span{display:grid;justify-items:center;gap:5px;color:#777873;font-size:8px}kbd{min-width:27px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;color:#c9c8c1;font-size:9px;text-align:center}
     .dock{position:absolute;z-index:12;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:7px;border:1px solid var(--line);border-radius:999px;background:rgba(12,13,13,.72);backdrop-filter:blur(20px);box-shadow:0 12px 50px rgba(0,0,0,.35)}
@@ -65,11 +66,13 @@
     .record-pause i{position:relative;border-left:3px solid currentColor;border-right:3px solid currentColor}.record-pause.resume i{width:0;height:0;border:5px solid transparent;border-left:8px solid currentColor;border-right:0}
     .record-stop i{background:currentColor;border-radius:2px}.record-control:disabled{opacity:.32;cursor:not-allowed}
     .rec-badge{position:absolute;z-index:14;top:88px;left:24px;display:none;gap:8px;align-items:center;padding:8px 11px;border-radius:999px;background:rgba(16,17,17,.72);font-size:10px;font-weight:900;letter-spacing:.08em;font-variant-numeric:tabular-nums}.rec-badge.visible{display:flex}.rec-badge i{background:#ff554c;animation:pulse 1.3s infinite}
+    .pace-badge{position:absolute;z-index:14;top:126px;left:24px;display:none;align-items:center;gap:7px;max-width:min(430px,calc(100vw - 48px));padding:8px 11px;border:1px solid rgba(105,199,201,.22);border-radius:999px;background:rgba(16,17,17,.78);color:#dddcd6;font-size:9px;font-weight:850;letter-spacing:.05em;font-variant-numeric:tabular-nums}.pace-badge.visible{display:flex}.pace-badge b{color:var(--lime);font-size:8px;letter-spacing:.12em}.pace-badge.over{border-color:rgba(255,85,76,.35)}.pace-badge.over b{color:#ff8a83}
     .voice-badge{position:absolute;z-index:14;top:126px;left:24px;display:none;gap:8px;align-items:center;max-width:min(360px,calc(100vw - 48px));padding:8px 11px;border-radius:999px;background:rgba(16,17,17,.72);color:#d8d7d1;font-size:9px;font-weight:800;letter-spacing:.05em}.voice-badge.visible{display:flex}.voice-badge i{flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}.voice-badge.error i{background:#ff685e;box-shadow:none}
     .notes-overlay{position:fixed;z-index:31;inset:0;display:none;place-items:center;padding:20px;background:rgba(4,5,5,.78);backdrop-filter:blur(14px)}.notes-overlay.visible{display:grid}
     .notes-card{width:min(610px,100%);padding:25px;border:1px solid var(--line);border-radius:24px;background:#171919;box-shadow:0 24px 90px rgba(0,0,0,.55)}
     .notes-card .eyebrow{margin-bottom:10px}.notes-card h2{margin:0;font:italic 500 38px/1 Georgia,serif;letter-spacing:-.04em}.notes-card>p{margin:10px 0 18px;color:var(--muted);font-size:13px;line-height:1.5}
     #notesInput{display:block;width:100%;min-height:240px;padding:16px;border:1px solid var(--line);border-radius:15px;resize:vertical;outline:0;background:#0d0f0f;color:var(--ink);font-size:16px;line-height:1.5}#notesInput:focus{border-color:rgba(105,199,201,.65);box-shadow:0 0 0 3px rgba(105,199,201,.10)}
+    .notes-pace{display:grid;grid-template-columns:1fr auto;align-items:center;gap:15px;margin-top:12px;padding:12px 14px;border:1px solid rgba(105,199,201,.2);border-radius:14px;background:rgba(105,199,201,.055)}.notes-pace-copy strong{display:block;font-size:11px}.notes-pace-copy span{display:block;margin-top:4px;color:#7f807b;font-size:9px;line-height:1.4}.notes-pace-fields{display:flex;align-items:center;gap:6px}.notes-pace-field{display:grid;grid-template-columns:44px auto;align-items:center;border:1px solid var(--line);border-radius:10px;background:#0a0c0c;overflow:hidden}.notes-pace-field input{width:44px;padding:9px 3px 9px 9px;border:0;outline:0;background:transparent;color:var(--ink);font-size:13px;font-weight:850}.notes-pace-field small{padding-right:7px;color:#6f706c;font-size:7px;font-weight:900}.notes-pace-hint{grid-column:1/-1;min-height:13px;color:var(--lime);font-size:9px;line-height:1.4}
     .notes-error{min-height:18px;margin:8px 0 0!important;color:#ff9992!important;font-size:11px!important}.notes-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:13px}.notes-actions button{min-height:44px;padding:0 18px;border-radius:999px;font-weight:800;cursor:pointer}
     .notes-cancel{border:1px solid var(--line);background:rgba(255,255,255,.06)}.notes-save{border:0;background:var(--lime);color:#111}
     .finish-overlay{position:fixed;z-index:30;inset:0;display:none;place-items:center;padding:20px;background:rgba(4,5,5,.74);backdrop-filter:blur(14px)}.finish-overlay.visible{display:grid}
@@ -92,7 +95,7 @@
     .mode-overlay{position:fixed;z-index:60;inset:0;display:none;place-items:center;padding:22px;background:radial-gradient(circle at 50% 12%,rgba(105,199,201,.13),transparent 32%),rgba(5,7,7,.92);backdrop-filter:blur(22px)}.mode-overlay.visible{display:grid}
     .mode-card{width:min(760px,100%);padding:31px;border:1px solid var(--line);border-radius:28px;background:#141616;box-shadow:0 28px 110px rgba(0,0,0,.7);text-align:center}.mode-logo{display:block;width:138px;height:auto;margin:0 auto 24px}.mode-card .eyebrow{margin-bottom:11px}.mode-card h2{margin:0;font:italic 500 clamp(38px,6vw,62px)/.98 Georgia,serif;letter-spacing:-.05em}.mode-card>p:not(.eyebrow){max-width:520px;margin:13px auto 24px;color:var(--muted);font-size:13px;line-height:1.55}.mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode-choice{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:13px;min-height:94px;padding:16px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.035);text-align:left;cursor:pointer;transition:transform .18s,border-color .18s,background .18s}.mode-choice:hover{transform:translateY(-2px);border-color:rgba(105,199,201,.5);background:rgba(105,199,201,.07)}.mode-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.07);font-size:18px}.mode-video .mode-icon{color:#ff554c}.mode-interview .mode-icon{color:var(--lime)}.mode-copy strong{display:block;margin-bottom:5px;font-size:14px}.mode-copy small{display:block;color:#888984;font-size:10px;line-height:1.4}.mode-arrow{color:#777873;font-size:20px}
     @keyframes pulse{50%{opacity:.35}}
-    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}.mode-card{padding:25px 18px}.mode-options{grid-template-columns:1fr}.mode-choice{min-height:84px}.meeting-platform-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}.interview-overlay{padding:0}.interview-shell{height:100svh;border:0;border-radius:0}.interview-setup{grid-template-columns:1fr;padding:22px}.context-grid{grid-template-columns:1fr}.context-field.wide{grid-column:auto}.interview-workspace{grid-template-columns:1fr;overflow:auto}.interview-pane{min-height:58svh}.interview-pane+.interview-pane{border-left:0;border-top:1px solid var(--line)}.live-toolbar{align-items:flex-start;flex-direction:column}.live-actions{justify-content:flex-start}.interview-head{padding:14px 16px}.mode-card{padding:25px 18px}.mode-options{grid-template-columns:1fr}.mode-choice{min-height:84px}.meeting-platform-grid{grid-template-columns:repeat(2,1fr)}.notes-pace{grid-template-columns:1fr}.notes-pace-fields{justify-content:flex-start}}
     @media(max-height:650px){.welcome h1{font-size:48px}.orbit{display:none}.panel{top:70px}}
   </style>
 </head>
@@ -161,6 +164,15 @@
       <label><span>Text size <output id="sizeOut">34px</output></span><input id="size" type="range" min="22" max="56" value="34"></label>
       <label><span>Text opacity <output id="opacityOut">84%</output></span><input id="opacity" type="range" min="35" max="100" value="84"></label>
       <label><span>Reading width <output id="widthOut">620px</output></span><input id="width" type="range" min="380" max="800" step="10" value="620"></label>
+      <section class="pace-setting" aria-labelledby="paceSettingTitle">
+        <div class="pace-title"><span id="paceSettingTitle">Finish within</span><output id="targetDurationOut">Off</output></div>
+        <div class="pace-fields">
+          <div class="pace-field"><input id="targetMinutes" type="number" min="0" max="99" step="1" value="0" aria-label="Target minutes"><small>MIN</small></div>
+          <div class="pace-field"><input id="targetSeconds" type="number" min="0" max="59" step="1" value="0" aria-label="Target seconds"><small>SEC</small></div>
+          <button id="clearPace" class="pace-clear" type="button">Off</button>
+        </div>
+        <p id="paceEstimate" class="pace-estimate">Set a limit and CueUp will calculate the exact pace for your script.</p>
+      </section>
       <div class="shortcuts"><span><kbd>Space</kbd>Record / pause</span><span><kbd>↑ ↓</kbd>Speed</span><span><kbd>R</kbd>Start / stop</span></div>
     </aside>
 
@@ -176,6 +188,7 @@
       </div>
     </footer>
     <div id="recBadge" class="rec-badge"><i></i><span>REC 00:00</span></div>
+    <div id="paceBadge" class="pace-badge" role="status"><b>ON PACE</b><span id="paceBadgeText">Finish in 00:00</span></div>
     <div id="voiceBadge" class="voice-badge" role="status"><i></i><span>Listening · next word highlighted</span></div>
     <div id="notesOverlay" class="notes-overlay" role="dialog" aria-modal="true" aria-labelledby="notesTitle">
       <section class="notes-card">
@@ -183,6 +196,14 @@
         <h2 id="notesTitle">Paste your notes.</h2>
         <p>These words will sit close to the camera lens and scroll while you record.</p>
         <textarea id="notesInput" placeholder="Paste or type what you want to say…" aria-label="Notes for this recording"></textarea>
+        <div class="notes-pace">
+          <div class="notes-pace-copy"><strong>Finish within</strong><span>Optional · CueUp automatically paces the full script.</span></div>
+          <div class="notes-pace-fields">
+            <div class="notes-pace-field"><input id="notesTargetMinutes" type="number" min="0" max="99" value="0" aria-label="Target minutes"><small>MIN</small></div>
+            <div class="notes-pace-field"><input id="notesTargetSeconds" type="number" min="0" max="59" value="0" aria-label="Target seconds"><small>SEC</small></div>
+          </div>
+          <span id="notesPaceHint" class="notes-pace-hint">No time limit</span>
+        </div>
         <p id="notesError" class="notes-error" role="alert"></p>
         <div class="notes-actions">
           <button id="notesCancel" class="notes-cancel">Cancel</button>
@@ -322,6 +343,7 @@
       let notesConfirmed = false;
       let notesIntent = "edit";
       let speed = Number(storage.get("eyeline-speed","34"));
+      let paceTargetSeconds = 0, paceElapsedMs = 0, timedPacing = false;
       let scriptWords = [], scriptWordEls = [], highlightedWordIndex = -1, committedWordIndex = 0;
       let recognition = null, voiceWanted = false, voiceActive = false, processedFinalResults = 0;
       let resumeVoiceAfterPause = false;
@@ -337,6 +359,8 @@
         const saved = storage.get("eyeline-" + key);
         if (saved) $(key).value = saved;
       });
+      $("targetMinutes").value = storage.get("cueup-target-minutes","0");
+      $("targetSeconds").value = storage.get("cueup-target-seconds","0");
 
       function formatTime(seconds) {
         return String(Math.floor(seconds / 60)).padStart(2,"0") + ":" + String(seconds % 60).padStart(2,"0");
@@ -353,6 +377,35 @@
         ["speed","size","opacity","width"].forEach((key) => storage.set("eyeline-" + key, $(key).value));
       }
       syncControls();
+
+      function syncPaceSetting() {
+        const minutes = Math.max(0,Math.min(99,Math.floor(Number($("targetMinutes").value) || 0)));
+        const seconds = Math.max(0,Math.min(59,Math.floor(Number($("targetSeconds").value) || 0)));
+        $("targetMinutes").value = minutes;
+        $("targetSeconds").value = seconds;
+        paceTargetSeconds = minutes * 60 + seconds;
+        storage.set("cueup-target-minutes",String(minutes));
+        storage.set("cueup-target-seconds",String(seconds));
+        $("targetDurationOut").textContent = paceTargetSeconds ? formatTime(paceTargetSeconds) : "Off";
+        $("notesTargetMinutes").value = minutes;
+        $("notesTargetSeconds").value = seconds;
+        const currentScript = $("notesOverlay").classList.contains("visible") ? $("notesInput").value : editor.value;
+        const words = (currentScript.match(/[\p{L}\p{N}'’-]+/gu) || []).length;
+        if (!paceTargetSeconds) {
+          $("paceEstimate").textContent = "Set a limit and CueUp will calculate the exact pace for your script.";
+          $("notesPaceHint").textContent = "No time limit";
+        } else if (!words) {
+          $("paceEstimate").textContent = "Add your notes to calculate the required speaking pace.";
+          $("notesPaceHint").textContent = "Add notes to calculate the pace";
+        } else {
+          const pacedSeconds = Math.max(1,paceTargetSeconds - Math.min(5,paceTargetSeconds * .05));
+          const wordsPerMinute = Math.ceil(words / (pacedSeconds / 60));
+          const paceCopy = wordsPerMinute + " words/min · includes a small finish buffer.";
+          $("paceEstimate").textContent = paceCopy;
+          $("notesPaceHint").textContent = paceCopy;
+        }
+      }
+      syncPaceSetting();
 
       function normalizeWord(word) {
         return word.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
@@ -527,6 +580,10 @@
       }
 
       function toggleVoiceTracking() {
+        if (recorder && recorder.state === "recording" && paceTargetSeconds) {
+          showVoiceState("Target-time pacing is active · turn off the time limit to use Voice Follow",true);
+          return;
+        }
         if (voiceWanted || voiceActive) stopVoiceTracking();
         else startVoiceTracking();
       }
@@ -932,6 +989,7 @@
         if (!editing) renderScript();
         $("editBtn").textContent = editing ? "✓ Done editing" : "✎ Edit script";
         storage.set("eyeline-script", editor.value);
+        syncPaceSetting();
         updatePlay();
       }
       function updatePlay() {
@@ -941,17 +999,61 @@
         if (editing) setEditing(false);
         if (!scrolling && (voiceWanted || voiceActive)) stopVoiceTracking();
         scrolling = !scrolling;
+        timedPacing = Boolean(scrolling && recorder && recorder.state === "recording" && paceTargetSeconds);
         lastFrame = 0;
         updatePlay();
         if (scrolling) animationId = requestAnimationFrame(tick);
         else if (animationId) cancelAnimationFrame(animationId);
       }
+      function paceTargetScrollTop() {
+        return Math.max(0,Math.min(prompt.scrollHeight - prompt.clientHeight,view.offsetTop + view.offsetHeight - prompt.clientHeight * .32));
+      }
+      function updatePaceBadge() {
+        const badge = $("paceBadge");
+        if (!paceTargetSeconds || !recorder || recorder.state === "inactive") {
+          badge.classList.remove("visible","over");
+          return;
+        }
+        const remaining = paceTargetSeconds - recordSeconds;
+        badge.classList.add("visible");
+        badge.classList.toggle("over",remaining < 0);
+        badge.querySelector("b").textContent = remaining < 0 ? "WRAP UP" : "ON PACE";
+        $("paceBadgeText").textContent = remaining < 0 ? formatTime(Math.abs(remaining)) + " over target" : formatTime(remaining) + " remaining";
+      }
+      function startTimedPacing(resetElapsed) {
+        stopVoiceTracking();
+        if (resetElapsed) paceElapsedMs = 0;
+        timedPacing = true;
+        scrolling = true;
+        lastFrame = 0;
+        updatePlay();
+        updatePaceBadge();
+        animationId = requestAnimationFrame(tick);
+      }
       function tick(time) {
         if (!scrolling) return;
         if (lastFrame) {
-          prompt.scrollTop += speed * ((time - lastFrame) / 1000);
-          if (prompt.scrollTop + prompt.clientHeight >= prompt.scrollHeight - 2) {
-            scrolling = false; updatePlay(); return;
+          const elapsed = time - lastFrame;
+          if (timedPacing && paceTargetSeconds) {
+            paceElapsedMs += elapsed;
+            const target = paceTargetScrollTop();
+            const paceDurationMs = Math.max(1000,(paceTargetSeconds - Math.min(5,paceTargetSeconds * .05)) * 1000);
+            const remainingMs = Math.max(1,paceDurationMs - paceElapsedMs);
+            const remainingDistance = Math.max(0,target - prompt.scrollTop);
+            prompt.scrollTop += remainingDistance * Math.min(1,elapsed / remainingMs);
+            if (paceElapsedMs >= paceDurationMs || prompt.scrollTop >= target - 1) {
+              prompt.scrollTop = target;
+              scrolling = false;
+              timedPacing = false;
+              updatePlay();
+              updatePaceBadge();
+              return;
+            }
+          } else {
+            prompt.scrollTop += speed * (elapsed / 1000);
+            if (prompt.scrollTop + prompt.clientHeight >= prompt.scrollHeight - 2) {
+              scrolling = false; updatePlay(); return;
+            }
           }
         }
         lastFrame = time;
@@ -959,6 +1061,8 @@
       }
       function resetPrompt() {
         scrolling = false;
+        timedPacing = false;
+        paceElapsedMs = 0;
         committedWordIndex = 0;
         paintWordProgress(0,false);
         prompt.scrollTop = 0;
@@ -974,12 +1078,16 @@
         startRecBtn.classList.toggle("active",active);
         pauseRecBtn.classList.toggle("resume",state === "paused");
         pauseRecBtn.querySelector("span").textContent = state === "paused" ? "Resume" : "Pause";
+        voiceBtn.disabled = !SpeechRecognitionApi || (active && Boolean(paceTargetSeconds));
       }
 
       function openNotesDialog(intent = "edit") {
         notesIntent = intent;
         $("notesInput").value = editor.value;
+        $("notesTargetMinutes").value = $("targetMinutes").value;
+        $("notesTargetSeconds").value = $("targetSeconds").value;
         $("notesError").textContent = "";
+        syncPaceSetting();
         $("notesSave").textContent = intent === "record" ? "Use notes & start recording" : "Save notes";
         $("notesOverlay").classList.add("visible");
         setTimeout(() => $("notesInput").focus(),0);
@@ -1013,6 +1121,7 @@
           $("shareBtn").textContent = "Share video";
           $("shareBtn").disabled = false;
           recBadge.classList.remove("visible");
+          $("paceBadge").classList.remove("visible","over");
           updateRecordBar();
           notesConfirmed = false;
           $("finishOverlay").classList.add("visible");
@@ -1023,11 +1132,15 @@
         recBadge.classList.add("visible");
         recBadge.querySelector("span").textContent = "REC 00:00";
         if (editing) setEditing(false);
-        if (!startVoiceTracking() && !scrolling) toggleScroll();
+        if (paceTargetSeconds) {
+          resetPrompt();
+          startTimedPacing(true);
+        } else if (!startVoiceTracking() && !scrolling) toggleScroll();
         recordTimer = setInterval(() => {
           if (recorder && recorder.state === "recording") {
             recordSeconds++;
             recBadge.querySelector("span").textContent = "REC " + formatTime(recordSeconds);
+            updatePaceBadge();
           }
         },1000);
       }
@@ -1048,8 +1161,11 @@
           resumeVoiceAfterPause = voiceWanted || voiceActive;
           if (resumeVoiceAfterPause) stopVoiceTracking();
           scrolling = false;
+          timedPacing = false;
+          if (animationId) cancelAnimationFrame(animationId);
           updatePlay();
           recBadge.querySelector("span").textContent = "PAUSED " + formatTime(recordSeconds);
+          updatePaceBadge();
           updateRecordBar();
           return;
         }
@@ -1058,6 +1174,8 @@
           if (resumeVoiceAfterPause) {
             startVoiceTracking();
             resumeVoiceAfterPause = false;
+          } else if (paceTargetSeconds) {
+            startTimedPacing(false);
           } else if (!scrolling) toggleScroll();
           recBadge.querySelector("span").textContent = "REC " + formatTime(recordSeconds);
           updateRecordBar();
@@ -1168,7 +1286,10 @@
         $("notesOverlay").classList.remove("visible");
         if (notesIntent === "record") startRecording();
       });
-      $("notesInput").addEventListener("input",() => $("notesError").textContent = "");
+      $("notesInput").addEventListener("input",() => {
+        $("notesError").textContent = "";
+        syncPaceSetting();
+      });
       $("notesInput").addEventListener("keydown",(event) => {
         if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
           event.preventDefault();
@@ -1182,7 +1303,20 @@
         finishedBlob = null;
       });
       editor.addEventListener("input",() => storage.set("eyeline-script",editor.value));
+      editor.addEventListener("input",syncPaceSetting);
       ["speed","size","opacity","width"].forEach((key) => $(key).addEventListener("input",syncControls));
+      ["targetMinutes","targetSeconds"].forEach((id) => $(id).addEventListener("input",syncPaceSetting));
+      [["notesTargetMinutes","targetMinutes"],["notesTargetSeconds","targetSeconds"]].forEach(([notesId,panelId]) => {
+        $(notesId).addEventListener("input",() => {
+          $(panelId).value = $(notesId).value;
+          syncPaceSetting();
+        });
+      });
+      $("clearPace").addEventListener("click",() => {
+        $("targetMinutes").value = "0";
+        $("targetSeconds").value = "0";
+        syncPaceSetting();
+      });
       if (!SpeechRecognitionApi) {
         voiceBtn.disabled = true;
         voiceBtn.title = "Voice Follow is not supported by this browser";
