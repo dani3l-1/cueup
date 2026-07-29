@@ -677,12 +677,21 @@
       }
 
       async function toggleVoiceTracking() {
-        if (recorder && recorder.state === "recording" && paceTargetSeconds) {
-          showVoiceState("Target-time pacing is active · turn off the time limit to use Voice Follow",true);
+        if (voiceWanted || voiceActive) {
+          stopVoiceTracking();
+          if (recorder && recorder.state === "recording" && paceTargetSeconds) {
+            paceElapsedMs = recordSeconds * 1000;
+            startTimedPacing(false);
+          }
           return;
         }
-        if (voiceWanted || voiceActive) stopVoiceTracking();
-        else await startVoiceTracking();
+        if (timedPacing) {
+          scrolling = false;
+          timedPacing = false;
+          if (animationId) cancelAnimationFrame(animationId);
+          updatePlay();
+        }
+        await startVoiceTracking();
       }
 
       function interviewContext() {
@@ -1142,7 +1151,14 @@
         const remaining = paceTargetSeconds - recordSeconds;
         badge.classList.add("visible");
         badge.classList.toggle("over",remaining < 0);
-        badge.querySelector("b").textContent = remaining < 0 ? "WRAP UP" : "ON PACE";
+        let paceState = remaining < 0 ? "WRAP UP" : "ON PACE";
+        if (remaining >= 0 && (voiceWanted || voiceActive) && scriptWords.length) {
+          const expectedProgress = Math.min(1,recordSeconds / paceTargetSeconds);
+          const spokenProgress = Math.min(1,committedWordIndex / scriptWords.length);
+          if (spokenProgress < expectedProgress - .06) paceState = "SPEED UP";
+          else if (spokenProgress > expectedProgress + .08) paceState = "AHEAD";
+        }
+        badge.querySelector("b").textContent = paceState;
         $("paceBadgeText").textContent = remaining < 0 ? formatTime(Math.abs(remaining)) + " over target" : formatTime(remaining) + " remaining";
       }
       function startTimedPacing(resetElapsed) {
@@ -1203,7 +1219,7 @@
         startRecBtn.classList.toggle("active",active);
         pauseRecBtn.classList.toggle("resume",state === "paused");
         pauseRecBtn.querySelector("span").textContent = state === "paused" ? "Resume" : "Pause";
-        voiceBtn.disabled = active && Boolean(paceTargetSeconds);
+        voiceBtn.disabled = false;
       }
 
       function openNotesDialog(intent = "edit") {
@@ -1255,11 +1271,14 @@
         recBadge.querySelector("span").textContent = "REC 00:00";
         if (editing) setEditing(false);
         const voiceFollowRequested = voiceWanted || voiceActive;
-        if (paceTargetSeconds) {
+        if (voiceFollowRequested) {
+          scrolling = false;
+          timedPacing = false;
+          if (!voiceActive) startVoiceTracking();
+          updatePaceBadge();
+        } else if (paceTargetSeconds) {
           resetPrompt();
           startTimedPacing(true);
-        } else if (voiceFollowRequested) {
-          if (!voiceActive) startVoiceTracking();
         } else if (!scrolling) {
           toggleScroll();
         }
