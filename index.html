@@ -53,6 +53,7 @@
     .dock{position:absolute;z-index:12;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:7px;border:1px solid var(--line);border-radius:999px;background:rgba(12,13,13,.72);backdrop-filter:blur(20px);box-shadow:0 12px 50px rgba(0,0,0,.35)}
     .dock.visible{display:flex}.dock button{border:0;cursor:pointer;font-weight:750}.round{width:41px;height:41px;border-radius:50%;background:rgba(255,255,255,.08)}
     .play{height:43px;padding:0 18px;border-radius:999px;background:var(--lime);color:#111}
+    .notes-open{width:auto;padding:0 14px;border-radius:999px;color:#e9e8e2;font-size:11px}
     .record-controls{display:flex;align-items:center;gap:4px;padding-left:8px;border-left:1px solid var(--line)}
     .record-control{height:43px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px}
     .record-control i{display:inline-block;width:9px;height:9px;margin-right:7px}
@@ -126,6 +127,7 @@
 
     <footer id="dock" class="dock">
       <button id="resetBtn" class="round" title="Restart prompt">↺</button>
+      <button id="notesBtn" class="round notes-open" title="Add or edit notes">Notes</button>
       <button id="playBtn" class="play"><span>▶</span> Start prompt</button>
       <div class="record-controls" role="group" aria-label="Recording controls">
         <button id="recordStartBtn" class="record-control record-start"><i></i><span>Start</span></button>
@@ -170,6 +172,16 @@
       "use strict";
       const $ = (id) => document.getElementById(id);
       const defaultScript = "";
+      const storage = {
+        get(key,fallback = "") {
+          try { return localStorage.getItem(key) ?? fallback; }
+          catch (e) { return fallback; }
+        },
+        set(key,value) {
+          try { localStorage.setItem(key,value); }
+          catch (e) {}
+        }
+      };
 
       const camera = $("camera"), welcome = $("welcome"), promptShell = $("promptShell");
       const prompt = $("prompt"), editor = $("scriptEditor"), view = $("scriptView");
@@ -180,11 +192,12 @@
       let animationId = null, lastFrame = 0, recordSeconds = 0, recordTimer = null;
       let finishedBlob = null, finishedName = "";
       let notesConfirmed = false;
-      let speed = Number(localStorage.getItem("eyeline-speed") || 34);
+      let notesIntent = "edit";
+      let speed = Number(storage.get("eyeline-speed","34"));
 
-      editor.value = localStorage.getItem("eyeline-script") || defaultScript;
+      editor.value = storage.get("eyeline-script",defaultScript);
       ["speed","size","opacity","width"].forEach((key) => {
-        const saved = localStorage.getItem("eyeline-" + key);
+        const saved = storage.get("eyeline-" + key);
         if (saved) $(key).value = saved;
       });
 
@@ -200,7 +213,7 @@
         $("sizeOut").textContent = $("size").value + "px";
         $("opacityOut").textContent = $("opacity").value + "%";
         $("widthOut").textContent = $("width").value + "px";
-        ["speed","size","opacity","width"].forEach((key) => localStorage.setItem("eyeline-" + key, $(key).value));
+        ["speed","size","opacity","width"].forEach((key) => storage.set("eyeline-" + key, $(key).value));
       }
       syncControls();
 
@@ -237,7 +250,7 @@
         view.style.display = editing ? "none" : "block";
         view.textContent = editor.value;
         $("editBtn").textContent = editing ? "✓ Done editing" : "✎ Edit script";
-        localStorage.setItem("eyeline-script", editor.value);
+        storage.set("eyeline-script", editor.value);
         updatePlay();
       }
       function updatePlay() {
@@ -277,9 +290,11 @@
         pauseRecBtn.querySelector("span").textContent = state === "paused" ? "Resume" : "Pause";
       }
 
-      function openNotesDialog() {
+      function openNotesDialog(intent = "edit") {
+        notesIntent = intent;
         $("notesInput").value = editor.value;
         $("notesError").textContent = "";
+        $("notesSave").textContent = intent === "record" ? "Use notes & start recording" : "Save notes";
         $("notesOverlay").classList.add("visible");
         setTimeout(() => $("notesInput").focus(),0);
       }
@@ -287,7 +302,7 @@
       async function startRecording() {
         if (recorder && (recorder.state === "recording" || recorder.state === "paused")) return;
         if (!notesConfirmed || !editor.value.trim()) {
-          openNotesDialog();
+          openNotesDialog("record");
           return;
         }
         if (!stream && !(await startCamera())) return;
@@ -402,6 +417,7 @@
       $("editBtn").addEventListener("click",() => setEditing(!editing));
       playBtn.addEventListener("click",toggleScroll);
       $("resetBtn").addEventListener("click",resetPrompt);
+      $("notesBtn").addEventListener("click",() => openNotesDialog("edit"));
       startRecBtn.addEventListener("click",startRecording);
       pauseRecBtn.addEventListener("click",pauseOrResumeRecording);
       stopRecBtn.addEventListener("click",finishRecording);
@@ -414,12 +430,19 @@
           return;
         }
         editor.value = notes;
-        localStorage.setItem("eyeline-script",notes);
+        storage.set("eyeline-script",notes);
         notesConfirmed = true;
         setEditing(false);
         resetPrompt();
         $("notesOverlay").classList.remove("visible");
-        startRecording();
+        if (notesIntent === "record") startRecording();
+      });
+      $("notesInput").addEventListener("input",() => $("notesError").textContent = "");
+      $("notesInput").addEventListener("keydown",(event) => {
+        if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+          event.preventDefault();
+          $("notesSave").click();
+        }
       });
       $("downloadBtn").addEventListener("click",downloadFinished);
       $("shareBtn").addEventListener("click",shareFinished);
@@ -427,7 +450,7 @@
         $("finishOverlay").classList.remove("visible");
         finishedBlob = null;
       });
-      editor.addEventListener("input",() => localStorage.setItem("eyeline-script",editor.value));
+      editor.addEventListener("input",() => storage.set("eyeline-script",editor.value));
       ["speed","size","opacity","width"].forEach((key) => $(key).addEventListener("input",syncControls));
       window.addEventListener("keydown",(event) => {
         if (event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) return;
