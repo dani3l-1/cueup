@@ -37,7 +37,6 @@
     .welcome-actions{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
     .primary{display:flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:14px 21px;background:var(--lime);color:#111;font-weight:800;cursor:pointer;box-shadow:0 8px 40px rgba(105,199,201,.16)}
     .secondary{min-height:46px;padding:0 20px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.06);font-weight:800;cursor:pointer}
-    .interview-entry{border-color:rgba(105,199,201,.42);color:var(--lime)}
     .permission{margin:12px 0 0;color:#6f706c;font-size:10px}.error{max-width:460px;color:#ff9992;font-size:12px;line-height:1.45}
     .prompt-shell{position:absolute;z-index:6;left:50%;top:71px;width:min(var(--prompt-width),calc(100vw - 40px));height:calc(100svh - 178px);transform:translateX(-50%);opacity:0;pointer-events:none;transition:opacity .4s}
     .prompt-shell.visible{opacity:1;pointer-events:auto}
@@ -140,7 +139,6 @@
       <div class="welcome-actions">
         <button id="cameraBtn" class="primary"><span>●</span> Turn on camera</button>
         <button id="welcomeNotesBtn" class="secondary">Add notes</button>
-        <button id="interviewBtn" class="secondary interview-entry">✦ Interview Copilot</button>
       </div>
       <p class="permission">Your browser will ask for camera + microphone permission</p>
       <p id="error" class="error" role="alert"></p>
@@ -964,7 +962,6 @@
         dock.classList.remove("visible");
         panel.classList.remove("open");
         $("videoModeBack").classList.remove("visible");
-        $("interviewBtn").hidden = false;
         status.classList.remove("live");
         status.lastElementChild.textContent = "Media stays local";
         error.textContent = "";
@@ -1245,24 +1242,18 @@
       $("chooseVideoMode").addEventListener("click",() => {
         currentMode = "video";
         $("modeOverlay").classList.remove("visible");
-        $("interviewBtn").hidden = true;
         $("videoModeBack").classList.add("visible");
         $("cameraBtn").focus();
       });
       $("chooseInterviewMode").addEventListener("click",() => {
         currentMode = "interview";
         $("modeOverlay").classList.remove("visible");
-        $("interviewBtn").hidden = true;
         $("videoModeBack").classList.remove("visible");
         openInterviewCopilot();
       });
       $("videoModeBack").addEventListener("click",returnToModeChooser);
       $("interviewModeBack").addEventListener("click",returnToModeChooser);
       $("welcomeNotesBtn").addEventListener("click",() => openNotesDialog("edit"));
-      $("interviewBtn").addEventListener("click",() => {
-        currentMode = "interview";
-        openInterviewCopilot();
-      });
       $("interviewClose").addEventListener("click",returnToModeChooser);
       $("meetingUrlOpen").addEventListener("click",openMeetingLink);
       $("meetingUrl").addEventListener("keydown",(event) => {
