@@ -1165,10 +1165,15 @@
         recBadge.classList.add("visible");
         recBadge.querySelector("span").textContent = "REC 00:00";
         if (editing) setEditing(false);
+        const voiceFollowRequested = voiceWanted || voiceActive;
         if (paceTargetSeconds) {
           resetPrompt();
           startTimedPacing(true);
-        } else if (!startVoiceTracking() && !scrolling) toggleScroll();
+        } else if (voiceFollowRequested) {
+          if (!voiceActive) beginRecognition();
+        } else if (!scrolling) {
+          toggleScroll();
+        }
         recordTimer = setInterval(() => {
           if (recorder && recorder.state === "recording") {
             recordSeconds++;
