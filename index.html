@@ -618,7 +618,7 @@
           voiceWanted = false;
           voiceActive = false;
           updateVoiceButton();
-          showVoiceState("Word Follow needs the public CueUp link in current Chrome or Edge",true);
+          showVoiceState("Word Follow is unavailable in this browser · open CueUp in full Chrome or Edge",true);
           return false;
         }
         if (!voiceWanted) return false;
@@ -1467,7 +1467,7 @@
         syncPaceSetting();
       });
       if (!SpeechRecognitionApi && !window.LanguageModel) {
-        voiceBtn.title = "Word Follow requires the public CueUp link in current Chrome or Edge";
+        voiceBtn.title = "Word Follow requires full Chrome or Edge";
       }
       window.addEventListener("keydown",(event) => {
         if ($("modeOverlay").classList.contains("visible")) return;
