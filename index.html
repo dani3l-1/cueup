@@ -45,7 +45,7 @@
     #prompt{height:100%;overflow-y:auto;scrollbar-width:none;mask-image:linear-gradient(transparent 0%,black 22%,black 58%,transparent 100%);text-align:center;color:rgba(255,255,255,var(--prompt-opacity));font-size:var(--prompt-size);font-weight:650;line-height:1.38;letter-spacing:-.025em;text-shadow:0 2px 18px rgba(0,0,0,.95)}
     #prompt::-webkit-scrollbar{display:none}.spacer{height:28vh}.spacer.end{height:62vh}
     #scriptEditor{display:block;width:100%;min-height:60vh;padding:0;resize:none;overflow:hidden;border:0;outline:0;color:inherit;background:transparent;text-align:center;font:inherit;line-height:inherit;text-shadow:inherit}
-    #scriptView{display:none;white-space:pre-wrap}.edit-chip{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(11,12,12,.62);backdrop-filter:blur(14px);color:#dddcd6;font-size:11px;cursor:pointer}
+    #scriptView{display:none;white-space:pre-wrap}.script-word{transition:color .16s,background-color .16s,opacity .16s}.script-word.spoken{opacity:.38}.script-word.next-word{color:var(--lime);background:rgba(105,199,201,.14);border-radius:.18em;box-shadow:0 0 18px rgba(105,199,201,.17);text-shadow:0 1px 14px rgba(0,0,0,.9)}.edit-chip{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(11,12,12,.62);backdrop-filter:blur(14px);color:#dddcd6;font-size:11px;cursor:pointer}
     .panel{position:absolute;z-index:12;right:24px;top:86px;width:270px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--panel);backdrop-filter:blur(22px);box-shadow:0 18px 60px rgba(0,0,0,.35);display:none}
     .panel.open{display:block}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:15px;border-bottom:1px solid var(--line)}
     .panel-head div{display:grid;gap:2px}.panel-head small{color:var(--lime);font-size:8px;font-weight:900;letter-spacing:.18em}.panel-head strong{font-size:14px}.panel-head button{border:0;background:none;color:#8e8f8a;font-size:22px;cursor:pointer}
@@ -56,6 +56,7 @@
     .dock.visible{display:flex}.dock button{border:0;cursor:pointer;font-weight:750}.round{width:41px;height:41px;border-radius:50%;background:rgba(255,255,255,.08)}
     .play{height:43px;padding:0 18px;border-radius:999px;background:var(--lime);color:#111}
     .notes-open{width:auto;padding:0 14px;border-radius:999px;color:#e9e8e2;font-size:11px}
+    .voice-track{display:flex;align-items:center;height:43px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px}.voice-track i{width:8px;height:8px;margin-right:7px;border:2px solid currentColor;border-radius:50%}.voice-track.active{color:var(--lime);background:rgba(105,199,201,.13)}.voice-track.active i{border:0;background:var(--lime);box-shadow:0 0 12px var(--lime);animation:pulse 1.3s infinite}.voice-track:disabled{opacity:.35;cursor:not-allowed}
     .record-controls{display:flex;align-items:center;gap:4px;padding-left:8px;border-left:1px solid var(--line)}
     .record-control{height:43px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px}
     .record-control i{display:inline-block;width:9px;height:9px;margin-right:7px}
@@ -63,6 +64,7 @@
     .record-pause i{position:relative;border-left:3px solid currentColor;border-right:3px solid currentColor}.record-pause.resume i{width:0;height:0;border:5px solid transparent;border-left:8px solid currentColor;border-right:0}
     .record-stop i{background:currentColor;border-radius:2px}.record-control:disabled{opacity:.32;cursor:not-allowed}
     .rec-badge{position:absolute;z-index:14;top:88px;left:24px;display:none;gap:8px;align-items:center;padding:8px 11px;border-radius:999px;background:rgba(16,17,17,.72);font-size:10px;font-weight:900;letter-spacing:.08em;font-variant-numeric:tabular-nums}.rec-badge.visible{display:flex}.rec-badge i{background:#ff554c;animation:pulse 1.3s infinite}
+    .voice-badge{position:absolute;z-index:14;top:126px;left:24px;display:none;gap:8px;align-items:center;max-width:min(360px,calc(100vw - 48px));padding:8px 11px;border-radius:999px;background:rgba(16,17,17,.72);color:#d8d7d1;font-size:9px;font-weight:800;letter-spacing:.05em}.voice-badge.visible{display:flex}.voice-badge i{flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}.voice-badge.error i{background:#ff685e;box-shadow:none}
     .notes-overlay{position:fixed;z-index:31;inset:0;display:none;place-items:center;padding:20px;background:rgba(4,5,5,.78);backdrop-filter:blur(14px)}.notes-overlay.visible{display:grid}
     .notes-card{width:min(610px,100%);padding:25px;border:1px solid var(--line);border-radius:24px;background:#171919;box-shadow:0 24px 90px rgba(0,0,0,.55)}
     .notes-card .eyebrow{margin-bottom:10px}.notes-card h2{margin:0;font:italic 500 38px/1 Georgia,serif;letter-spacing:-.04em}.notes-card>p{margin:10px 0 18px;color:var(--muted);font-size:13px;line-height:1.5}
@@ -79,7 +81,7 @@
     .link-result{display:none;margin-top:16px}.link-result.visible{display:block}.link-row{display:flex;gap:8px}.link-row input{min-width:0;flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#0d0e0e;color:#ddd;font-size:11px}.link-row button{padding:0 15px;border:0;border-radius:10px;background:#eee;color:#111;font-weight:800;cursor:pointer}
     .share-status{min-height:18px;margin-top:9px!important;color:#d7ff63!important;font-size:10px!important}.finish-close{display:block;margin:18px auto 0;border:0;background:none;color:#858681;font-size:11px;cursor:pointer}
     @keyframes pulse{50%{opacity:.35}}
-    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span{display:none}.play{padding:0 14px}}
+    @media(max-width:800px){.topbar{padding:16px}.status{display:none}.brand-logo{width:108px}.panel{top:auto;right:12px;left:12px;bottom:82px;width:auto}.shortcuts{display:none}.prompt-shell{top:66px;height:calc(100svh - 160px)}.dock{bottom:14px}.welcome{padding-bottom:110px}.record-control{padding:0 10px}.record-control span,.voice-track span{display:none}.voice-track{padding:0 12px}.voice-track i{margin:0}.play{padding:0 14px}}
     @media(max-height:650px){.welcome h1{font-size:48px}.orbit{display:none}.panel{top:70px}}
   </style>
 </head>
@@ -91,7 +93,7 @@
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src="CueUp-Logo.png" alt="CueUp"></div>
       <div class="top-actions">
-        <span id="status" class="status"><i></i><span>100% local</span></span>
+        <span id="status" class="status"><i></i><span>Media stays local</span></span>
         <button id="mirrorBtn" class="icon-btn" title="Mirror preview" aria-label="Mirror preview">↔</button>
         <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Open settings">⚙</button>
       </div>
@@ -101,7 +103,7 @@
       <img class="welcome-logo" src="CueUp-Logo.png" alt="CueUp">
       <p class="eyebrow">LOOK NATURAL. STAY ON MESSAGE.</p>
       <h1>Your notes,<br>right by the lens.</h1>
-      <p class="intro">Read comfortably while keeping natural eye contact. Nothing is uploaded—your camera, notes, and recordings stay on this computer.</p>
+      <p class="intro">Read comfortably while keeping natural eye contact. CueUp does not upload your notes or recordings. Voice Follow may use your browser’s speech service.</p>
       <div class="welcome-actions">
         <button id="cameraBtn" class="primary"><span>●</span> Turn on camera</button>
         <button id="welcomeNotesBtn" class="secondary">Add notes</button>
@@ -133,6 +135,7 @@
     <footer id="dock" class="dock">
       <button id="resetBtn" class="round" title="Restart prompt">↺</button>
       <button id="notesBtn" class="round notes-open" title="Add or edit notes">Notes</button>
+      <button id="voiceTrackBtn" class="voice-track" aria-pressed="false" title="Follow your voice and highlight the next word"><i></i><span>Voice follow</span></button>
       <button id="playBtn" class="play"><span>▶</span> Start prompt</button>
       <div class="record-controls" role="group" aria-label="Recording controls">
         <button id="recordStartBtn" class="record-control record-start"><i></i><span>Start</span></button>
@@ -141,6 +144,7 @@
       </div>
     </footer>
     <div id="recBadge" class="rec-badge"><i></i><span>REC 00:00</span></div>
+    <div id="voiceBadge" class="voice-badge" role="status"><i></i><span>Listening · next word highlighted</span></div>
     <div id="notesOverlay" class="notes-overlay" role="dialog" aria-modal="true" aria-labelledby="notesTitle">
       <section class="notes-card">
         <p class="eyebrow">BEFORE YOU RECORD</p>
@@ -193,12 +197,17 @@
       const dock = $("dock"), panel = $("panel"), status = $("status"), error = $("error");
       const playBtn = $("playBtn"), startRecBtn = $("recordStartBtn"), pauseRecBtn = $("recordPauseBtn");
       const stopRecBtn = $("recordStopBtn"), recBadge = $("recBadge");
+      const voiceBtn = $("voiceTrackBtn"), voiceBadge = $("voiceBadge");
+      const SpeechRecognitionApi = window.SpeechRecognition || window.webkitSpeechRecognition;
       let stream = null, recorder = null, chunks = [], scrolling = false, editing = true;
       let animationId = null, lastFrame = 0, recordSeconds = 0, recordTimer = null;
       let finishedBlob = null, finishedName = "";
       let notesConfirmed = false;
       let notesIntent = "edit";
       let speed = Number(storage.get("eyeline-speed","34"));
+      let scriptWords = [], scriptWordEls = [], highlightedWordIndex = -1, committedWordIndex = 0;
+      let recognition = null, voiceWanted = false, voiceActive = false, processedFinalResults = 0;
+      let resumeVoiceAfterPause = false;
 
       editor.value = storage.get("eyeline-script",defaultScript);
       ["speed","size","opacity","width"].forEach((key) => {
@@ -222,6 +231,183 @@
       }
       syncControls();
 
+      function normalizeWord(word) {
+        return word.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+      }
+
+      function renderScript() {
+        view.textContent = "";
+        scriptWords = [];
+        scriptWordEls = [];
+        const pieces = editor.value.match(/\s+|[^\s]+/g) || [];
+        pieces.forEach((piece) => {
+          const normalized = normalizeWord(piece);
+          if (!normalized) {
+            view.appendChild(document.createTextNode(piece));
+            return;
+          }
+          const word = document.createElement("span");
+          word.className = "script-word";
+          word.textContent = piece;
+          word.dataset.word = normalized;
+          view.appendChild(word);
+          scriptWords.push(normalized);
+          scriptWordEls.push(word);
+        });
+        committedWordIndex = 0;
+        highlightedWordIndex = -1;
+        paintWordProgress(0,false);
+      }
+
+      function paintWordProgress(nextIndex,follow) {
+        const next = Math.max(0,Math.min(nextIndex,scriptWordEls.length));
+        scriptWordEls.forEach((word,index) => {
+          word.classList.toggle("spoken",index < next);
+          word.classList.toggle("next-word",index === next);
+        });
+        highlightedWordIndex = next;
+        const nextWord = scriptWordEls[next];
+        if (follow && nextWord) {
+          const target = Math.max(0,nextWord.offsetTop - prompt.clientHeight * .3);
+          if (Math.abs(prompt.scrollTop - target) > 18) prompt.scrollTo({top:target,behavior:"smooth"});
+        }
+        if (voiceWanted && next >= scriptWordEls.length && scriptWordEls.length) {
+          showVoiceState("Script complete",false);
+        }
+      }
+
+      function oneEditApart(a,b) {
+        if (Math.abs(a.length - b.length) > 1) return false;
+        let i = 0, j = 0, edits = 0;
+        while (i < a.length && j < b.length) {
+          if (a[i] === b[j]) { i++; j++; continue; }
+          if (++edits > 1) return false;
+          if (a.length > b.length) i++;
+          else if (b.length > a.length) j++;
+          else { i++; j++; }
+        }
+        return edits + (i < a.length || j < b.length ? 1 : 0) <= 1;
+      }
+
+      function wordsMatch(scriptWord,heardWord) {
+        if (scriptWord === heardWord) return true;
+        return scriptWord.length >= 5 && heardWord.length >= 5 && oneEditApart(scriptWord,heardWord);
+      }
+
+      function advanceFromTranscript(transcript,startIndex) {
+        const heardWords = (transcript.match(/[\p{L}\p{N}'’-]+/gu) || []).map(normalizeWord).filter(Boolean);
+        let cursor = startIndex;
+        heardWords.forEach((heardWord) => {
+          let match = -1;
+          const limit = Math.min(scriptWords.length,cursor + 7);
+          for (let index = cursor; index < limit; index++) {
+            if (wordsMatch(scriptWords[index],heardWord)) { match = index; break; }
+          }
+          if (match !== -1) cursor = match + 1;
+        });
+        return cursor;
+      }
+
+      function showVoiceState(message,isError) {
+        voiceBadge.querySelector("span").textContent = message;
+        voiceBadge.classList.add("visible");
+        voiceBadge.classList.toggle("error",Boolean(isError));
+      }
+
+      function updateVoiceButton() {
+        voiceBtn.classList.toggle("active",voiceWanted || voiceActive);
+        voiceBtn.setAttribute("aria-pressed",String(voiceWanted || voiceActive));
+        voiceBtn.querySelector("span").textContent = voiceWanted || voiceActive ? "Listening" : "Voice follow";
+      }
+
+      function buildRecognition() {
+        if (!SpeechRecognitionApi || recognition) return Boolean(SpeechRecognitionApi);
+        recognition = new SpeechRecognitionApi();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = navigator.language || "en-US";
+        recognition.onstart = () => {
+          voiceActive = true;
+          processedFinalResults = 0;
+          updateVoiceButton();
+          showVoiceState("Listening · next word highlighted",false);
+        };
+        recognition.onresult = (event) => {
+          while (processedFinalResults < event.results.length && event.results[processedFinalResults].isFinal) {
+            committedWordIndex = advanceFromTranscript(event.results[processedFinalResults][0].transcript,committedWordIndex);
+            processedFinalResults++;
+          }
+          let previewWordIndex = committedWordIndex;
+          for (let index = processedFinalResults; index < event.results.length; index++) {
+            if (!event.results[index].isFinal) {
+              previewWordIndex = advanceFromTranscript(event.results[index][0].transcript,previewWordIndex);
+            }
+          }
+          paintWordProgress(previewWordIndex,true);
+        };
+        recognition.onerror = (event) => {
+          if (event.error === "aborted" || event.error === "no-speech") return;
+          if (event.error === "not-allowed" || event.error === "service-not-allowed") voiceWanted = false;
+          showVoiceState(event.error === "not-allowed" ? "Microphone access is needed for Voice Follow" : "Voice Follow paused · try again",true);
+          updateVoiceButton();
+        };
+        recognition.onend = () => {
+          voiceActive = false;
+          updateVoiceButton();
+          if (voiceWanted) setTimeout(beginRecognition,300);
+        };
+        return true;
+      }
+
+      function beginRecognition() {
+        if (!voiceWanted || !buildRecognition()) return false;
+        try {
+          recognition.start();
+          return true;
+        } catch (e) {
+          if (e.name === "InvalidStateError") return true;
+          voiceWanted = false;
+          updateVoiceButton();
+          showVoiceState("Voice Follow could not start in this browser",true);
+          return false;
+        }
+      }
+
+      function startVoiceTracking() {
+        if (!SpeechRecognitionApi) {
+          showVoiceState("Voice Follow requires Chrome, Edge, or Safari",true);
+          return false;
+        }
+        if (editing) setEditing(false);
+        if (!scriptWords.length) {
+          openNotesDialog("edit");
+          return false;
+        }
+        scrolling = false;
+        if (animationId) cancelAnimationFrame(animationId);
+        updatePlay();
+        voiceWanted = true;
+        updateVoiceButton();
+        return beginRecognition();
+      }
+
+      function stopVoiceTracking() {
+        voiceWanted = false;
+        voiceActive = false;
+        updateVoiceButton();
+        voiceBadge.classList.remove("visible");
+        paintWordProgress(committedWordIndex,false);
+        if (recognition) {
+          try { recognition.abort(); }
+          catch (e) {}
+        }
+      }
+
+      function toggleVoiceTracking() {
+        if (voiceWanted || voiceActive) stopVoiceTracking();
+        else startVoiceTracking();
+      }
+
       async function startCamera() {
         error.textContent = "";
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -240,7 +426,7 @@
           dock.classList.add("visible");
           panel.classList.add("open");
           status.classList.add("live");
-          status.lastElementChild.textContent = "Camera active · local only";
+          status.lastElementChild.textContent = "Camera active · recordings stay local";
           return true;
         } catch (e) {
           error.textContent = "Camera access was blocked. Allow camera and microphone access for this file, then click “Turn on camera” again.";
@@ -250,10 +436,11 @@
 
       function setEditing(next) {
         editing = next;
+        if (editing && (voiceWanted || voiceActive)) stopVoiceTracking();
         scrolling = false;
         editor.style.display = editing ? "block" : "none";
         view.style.display = editing ? "none" : "block";
-        view.textContent = editor.value;
+        if (!editing) renderScript();
         $("editBtn").textContent = editing ? "✓ Done editing" : "✎ Edit script";
         storage.set("eyeline-script", editor.value);
         updatePlay();
@@ -263,6 +450,7 @@
       }
       function toggleScroll() {
         if (editing) setEditing(false);
+        if (!scrolling && (voiceWanted || voiceActive)) stopVoiceTracking();
         scrolling = !scrolling;
         lastFrame = 0;
         updatePlay();
@@ -281,7 +469,11 @@
         animationId = requestAnimationFrame(tick);
       }
       function resetPrompt() {
-        scrolling = false; prompt.scrollTop = 0; updatePlay();
+        scrolling = false;
+        committedWordIndex = 0;
+        paintWordProgress(0,false);
+        prompt.scrollTop = 0;
+        updatePlay();
       }
 
       function updateRecordBar() {
@@ -322,6 +514,7 @@
         recorder.ondataavailable = (event) => { if (event.data.size) chunks.push(event.data); };
         recorder.onstop = () => {
           clearInterval(recordTimer);
+          stopVoiceTracking();
           const type = recorder.mimeType || "video/webm";
           const extension = type.includes("mp4") ? "mp4" : "webm";
           finishedBlob = new Blob(chunks,{type});
@@ -341,7 +534,7 @@
         recBadge.classList.add("visible");
         recBadge.querySelector("span").textContent = "REC 00:00";
         if (editing) setEditing(false);
-        if (!scrolling) toggleScroll();
+        if (!startVoiceTracking() && !scrolling) toggleScroll();
         recordTimer = setInterval(() => {
           if (recorder && recorder.state === "recording") {
             recordSeconds++;
@@ -352,6 +545,7 @@
 
       function finishRecording() {
         if (recorder && (recorder.state === "recording" || recorder.state === "paused")) {
+          stopVoiceTracking();
           recorder.stop();
           scrolling = false;
           updatePlay();
@@ -362,6 +556,8 @@
         if (!recorder) return;
         if (recorder.state === "recording") {
           recorder.pause();
+          resumeVoiceAfterPause = voiceWanted || voiceActive;
+          if (resumeVoiceAfterPause) stopVoiceTracking();
           scrolling = false;
           updatePlay();
           recBadge.querySelector("span").textContent = "PAUSED " + formatTime(recordSeconds);
@@ -370,7 +566,10 @@
         }
         if (recorder.state === "paused") {
           recorder.resume();
-          if (!scrolling) toggleScroll();
+          if (resumeVoiceAfterPause) {
+            startVoiceTracking();
+            resumeVoiceAfterPause = false;
+          } else if (!scrolling) toggleScroll();
           recBadge.querySelector("span").textContent = "REC " + formatTime(recordSeconds);
           updateRecordBar();
         }
@@ -424,6 +623,7 @@
       playBtn.addEventListener("click",toggleScroll);
       $("resetBtn").addEventListener("click",resetPrompt);
       $("notesBtn").addEventListener("click",() => openNotesDialog("edit"));
+      voiceBtn.addEventListener("click",toggleVoiceTracking);
       startRecBtn.addEventListener("click",startRecording);
       pauseRecBtn.addEventListener("click",pauseOrResumeRecording);
       stopRecBtn.addEventListener("click",finishRecording);
@@ -458,6 +658,10 @@
       });
       editor.addEventListener("input",() => storage.set("eyeline-script",editor.value));
       ["speed","size","opacity","width"].forEach((key) => $(key).addEventListener("input",syncControls));
+      if (!SpeechRecognitionApi) {
+        voiceBtn.disabled = true;
+        voiceBtn.title = "Voice Follow is not supported by this browser";
+      }
       window.addEventListener("keydown",(event) => {
         if (event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) return;
         if (event.code === "Space") { event.preventDefault(); spaceRecordPause(); }
@@ -468,7 +672,10 @@
           else startRecording();
         }
       });
-      window.addEventListener("beforeunload",() => stream && stream.getTracks().forEach((track) => track.stop()));
+      window.addEventListener("beforeunload",() => {
+        stopVoiceTracking();
+        if (stream) stream.getTracks().forEach((track) => track.stop());
+      });
     })();
   </script>
 </body>
