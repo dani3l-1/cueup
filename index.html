@@ -338,7 +338,7 @@
       let speed = Number(storage.get("eyeline-speed","34"));
       let paceTargetSeconds = 0, paceElapsedMs = 0, timedPacing = false;
       let scriptWords = [], scriptWordEls = [], highlightedWordIndex = -1, committedWordIndex = 0;
-      let recognition = null, voiceWanted = false, voiceActive = false, processedFinalResults = 0;
+      let recognition = null, voiceWanted = false, voiceActive = false, recognitionResultTokens = [], recognitionConsumedCounts = [];
       let voiceUsingFallback = false, voiceFallbackPreparing = false;
       let voiceFallbackStream = null, voiceFallbackRecorder = null, voiceFallbackSession = null;
       let voiceFallbackQueue = Promise.resolve();
@@ -460,19 +460,35 @@
         return scriptWord.length >= 5 && heardWord.length >= 5 && oneEditApart(scriptWord,heardWord);
       }
 
-      function advanceFromTranscript(transcript,startIndex) {
-        const heardWords = (transcript.match(/[\p{L}\p{N}'’-]+/gu) || []).map(normalizeWord).filter(Boolean);
+      function advanceFromWords(heardWords,startIndex) {
         let cursor = startIndex;
-        heardWords.forEach((heardWord) => {
+        let consumedCount = 0;
+        const findScriptMatch = (heardWord) => {
           let match = -1;
           const lookAhead = heardWord.length <= 3 ? 4 : 24;
           const limit = Math.min(scriptWords.length,cursor + lookAhead);
           for (let index = cursor; index < limit; index++) {
             if (wordsMatch(scriptWords[index],heardWord)) { match = index; break; }
           }
-          if (match !== -1) cursor = match + 1;
-        });
-        return cursor;
+          return match;
+        };
+        for (let heardIndex = 0; heardIndex < heardWords.length; heardIndex++) {
+          let match = findScriptMatch(heardWords[heardIndex]);
+          if (match === -1 && heardIndex + 1 < heardWords.length) {
+            match = findScriptMatch(heardWords[heardIndex] + heardWords[heardIndex + 1]);
+            if (match !== -1) heardIndex++;
+          }
+          if (match !== -1) {
+            cursor = match + 1;
+            consumedCount = heardIndex + 1;
+          }
+        }
+        return {cursor,consumedCount};
+      }
+
+      function advanceFromTranscript(transcript,startIndex) {
+        const heardWords = (transcript.match(/[\p{L}\p{N}'’-]+/gu) || []).map(normalizeWord).filter(Boolean);
+        return advanceFromWords(heardWords,startIndex).cursor;
       }
 
       function showVoiceState(message,isError) {
@@ -496,23 +512,32 @@
         recognition.onstart = () => {
           voiceUsingFallback = false;
           voiceActive = true;
-          processedFinalResults = 0;
+          recognitionResultTokens = [];
+          recognitionConsumedCounts = [];
           updateVoiceButton();
           showVoiceState("Listening · next word highlighted",false);
         };
         recognition.onresult = (event) => {
-          while (processedFinalResults < event.results.length && event.results[processedFinalResults].isFinal) {
-            committedWordIndex = advanceFromTranscript(event.results[processedFinalResults][0].transcript,committedWordIndex);
-            processedFinalResults++;
-          }
-          let previewWordIndex = committedWordIndex;
-          for (let index = processedFinalResults; index < event.results.length; index++) {
-            if (!event.results[index].isFinal) {
-              previewWordIndex = advanceFromTranscript(event.results[index][0].transcript,previewWordIndex);
+          let nextWordIndex = committedWordIndex;
+          for (let index = 0; index < event.results.length; index++) {
+            const currentTokens = (event.results[index][0].transcript.match(/[\p{L}\p{N}'’-]+/gu) || []).map(normalizeWord).filter(Boolean);
+            const previousTokens = recognitionResultTokens[index] || [];
+            let commonPrefix = 0;
+            while (commonPrefix < currentTokens.length && commonPrefix < previousTokens.length && currentTokens[commonPrefix] === previousTokens[commonPrefix]) commonPrefix++;
+            let consumedCount = recognitionConsumedCounts[index] || 0;
+            if (commonPrefix < consumedCount) consumedCount = commonPrefix;
+            const newlyHeard = currentTokens.slice(consumedCount);
+            if (newlyHeard.length) {
+              const advance = advanceFromWords(newlyHeard,nextWordIndex);
+              nextWordIndex = advance.cursor;
+              consumedCount += advance.consumedCount;
             }
+            recognitionResultTokens[index] = currentTokens;
+            recognitionConsumedCounts[index] = consumedCount;
           }
-          paintWordProgress(previewWordIndex,true);
-          const nextWord = scriptWordEls[previewWordIndex];
+          committedWordIndex = Math.max(committedWordIndex,nextWordIndex);
+          paintWordProgress(committedWordIndex,true);
+          const nextWord = scriptWordEls[committedWordIndex];
           showVoiceState(nextWord ? "Listening · next: " + nextWord.textContent : "Script complete",false);
         };
         recognition.onerror = (event) => {
@@ -633,7 +658,7 @@
             if (!event.data.size) return;
             voiceFallbackQueue = voiceFallbackQueue.then(() => processVoiceFallbackAudio(event.data));
           };
-          voiceFallbackRecorder.start(3500);
+          voiceFallbackRecorder.start(1800);
           voiceUsingFallback = true;
           voiceActive = true;
           updateVoiceButton();
